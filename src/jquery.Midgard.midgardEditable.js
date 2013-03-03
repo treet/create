@@ -341,36 +341,27 @@
       }
 
       // Load the property editor widget configuration for the data type
-      var propertyType = 'default';
       var attributeDefinition = this.getAttributeDefinition(data.property);
+      var propertyType = attributeDefinition ? attributeDefinition.range[0]
+                                             : data.element.attr('range');
 
-      if (attributeDefinition) {
-        propertyType = attributeDefinition.range[0];
-      }
-      else {
-        // Get type from element attribute
-        var rangeValue = data.element.attr('range');
 
-        if (rangeValue !== undefined) {
-          propertyType = rangeValue;
-        }
-      }
-
-      if (propertyType === 'default' && this.options.propertyEditorWidgets['_selectors'] !== undefined) {
-        // Return first editor that matches selector
-        for (var i = 0; i < this.options.propertyEditorWidgets['_selectors'].length; i++) {
-          var item = this.options.propertyEditorWidgets['_selectors'][i];
-
-          if (data.element.is(item.selector)) {
-            return item.editor;
-          }
-        }
-      }
-
-      if (this.options.propertyEditorWidgets[propertyType] !== undefined) {
+      if (propertyType !== undefined && this.options.propertyEditorWidgets[propertyType] !== undefined) {
         return this.options.propertyEditorWidgets[propertyType];
       }
 
+      // Determine editor based on CSS selector
+      if (this.options.propertyEditorWidgets['_selectors'] !== undefined) {
+        var item = _.find(this.options.propertyEditorWidgets['_selectors'], function (item) {
+          return data.element.is(item.selector);
+        });
+
+        if (item !== undefined) {
+          return item.editor;
+        }
+      }
+
+      // Fallback to default
       return this.options.propertyEditorWidgets['default'];
     },
 
