@@ -249,6 +249,18 @@
       this.options.editorWidgets[property] = editor;
     },
 
+    setEditorForSelector: function (selector, editor) {
+      if (this.options.editorOptions[editor] === undefined && editor !== null) {
+        throw new Error("No editor " + editor + " configured");
+      }
+
+      if (this.options.editorWidgets['_selectors'] === undefined) {
+        this.options.editorWidgets['_selectors'] = [];
+      }
+
+      this.options.editorWidgets['_selectors'].push({editor: editor, selector: selector});
+    },
+
     _checkSession: function () {
       if (!window.sessionStorage) {
         return;

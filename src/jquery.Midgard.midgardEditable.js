@@ -356,9 +356,21 @@
         }
       }
 
+      if (propertyType === 'default' && this.options.propertyEditorWidgets['_selectors'] !== undefined) {
+        // Return first editor that matches selector
+        for (var i = 0; i < this.options.propertyEditorWidgets['_selectors'].length; i++) {
+          var item = this.options.propertyEditorWidgets['_selectors'][i];
+
+          if (data.element.is(item.selector)) {
+            return item.editor;
+          }
+        }
+      }
+
       if (this.options.propertyEditorWidgets[propertyType] !== undefined) {
         return this.options.propertyEditorWidgets[propertyType];
       }
+
       return this.options.propertyEditorWidgets['default'];
     },
 
