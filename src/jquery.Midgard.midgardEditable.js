@@ -343,9 +343,19 @@
       // Load the property editor widget configuration for the data type
       var propertyType = 'default';
       var attributeDefinition = this.getAttributeDefinition(data.property);
+
       if (attributeDefinition) {
         propertyType = attributeDefinition.range[0];
       }
+      else {
+        // Get type from element attribute
+        var rangeValue = data.element.attr('range');
+
+        if (rangeValue !== undefined) {
+          propertyType = rangeValue;
+        }
+      }
+
       if (this.options.propertyEditorWidgets[propertyType] !== undefined) {
         return this.options.propertyEditorWidgets[propertyType];
       }
