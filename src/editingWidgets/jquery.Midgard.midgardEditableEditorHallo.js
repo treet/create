@@ -12,7 +12,7 @@
   //
   // This widget allows editing textual content areas with the
   // [Hallo](http://hallojs.org) rich text editor.
-  jQuery.widget('Create.halloWidget', jQuery.Create.editWidget, {
+  jQuery.widget('Midgard.halloWidget', jQuery.Midgard.editWidget, {
     options: {
       editorOptions: {},
       disabled: true,
@@ -54,6 +54,10 @@
           return;
         }
         self.options.toolbarState = data.display;
+        if (!self.element.data('IKS-hallo')) {
+          // Hallo not yet instantiated
+          return;
+        }
         var newOptions = self.getHalloOptions();
         self.element.hallo('changeToolbar', newOptions.parentElement, newOptions.toolbar, true);
       });
